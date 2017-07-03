@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "481420171563",
+    "firebase_url": "https://ezwifi-8f373.firebaseio.com",
+    "project_id": "ezwifi-8f373",
+    "storage_bucket": "ezwifi-8f373.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481420171563:android:68d7a31f604c0c7e",
+        "android_client_info": {
+          "package_name": "com.github.ocaparrostortosa.ezwifi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481420171563-78s6iggnmd317tcpaabhjbb2nnetehbi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.ocaparrostortosa.ezwifi",
+            "certificate_hash": "4b7073e3fe1719768620efd10fd9f1e430f573f2"
+          }
+        },
+        {
+          "client_id": "481420171563-oko6gao3ivekkpiht40ls0ehlbv1tt3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG4K8zVQqnwCEL0GkWFVY0l9aKVz5OhSo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481420171563-oko6gao3ivekkpiht40ls0ehlbv1tt3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
