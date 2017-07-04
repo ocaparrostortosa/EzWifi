@@ -2,7 +2,9 @@ package com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.da
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,11 +52,14 @@ public class UsuarioDAO extends AppCompatActivity{
         this.database = database;
         this.usuario = usuario;
         this.database = FirebaseDatabase.getInstance();
-        //setUserInformationInDB();
     }
 
     public String getUserPath(Usuario usuario){
         return "users/"+usuario.getUsername();
+    }
+
+    public String getUserPath(String username){
+        return "users/"+username;
     }
 
     private void crearUnUsuarioEnBD(Usuario usuario, Button boton, TextView estado, RegisterActivity registerActivity){
@@ -78,21 +83,25 @@ public class UsuarioDAO extends AppCompatActivity{
         //System.exit(0);
     }
 
-    public void hacerLogin(String nombre, String contraseña, final LoginActivity loginActivity){
+    public void hacerLogin(final String username, final String contraseña, final LoginActivity loginActivity){
         this.loginActivity = loginActivity;
         database = FirebaseDatabase.getInstance();
 
-        users = database.getReference("users/" + nombre);
+        users = database.getReference("users/" + username);
         users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Usuario u = dataSnapshot.getValue(Usuario.class);
-                System.out.println("Usuario logueado: " + u.toString());
-                loginActivity.accionUsuarioCorrecto(u.getUsername());
-                /**
-                 * SOLO TE FALTA HACER EL CATCH PARA CUANDO HAYA UN MAL LOGUEO Y YA ESTÁ EL REGISTRO
-                 * Y EL LOGUEO TERMINADO.
-                 */
+                try {
+                    Usuario u = dataSnapshot.getValue(Usuario.class);
+                    System.out.println("Usuario logueado: " + u.toString());
+                    if(u.getUsername().equals(username) && u.getPassword().equals(contraseña))
+                        loginActivity.accionUsuarioCorrecto(u.getUsername());
+                    else
+                        loginActivity.accionUsuarioIncorrecto(username);
+                }catch (NullPointerException e){
+                    System.out.println("Catch de error al loguearse.");
+                    loginActivity.accionUsuarioIncorrecto(username);
+                }
             }
 
             @Override

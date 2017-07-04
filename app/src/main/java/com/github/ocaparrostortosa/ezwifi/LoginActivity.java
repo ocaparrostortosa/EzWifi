@@ -91,7 +91,12 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
-    public void accionUsuarioIncorrecto(){
+    public void accionUsuarioIncorrecto(String username){
+        Toast toast = Toast.makeText(getApplicationContext(), "El usuario o la contraseña son incorrectas.", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER , 0, 0);
+        toast.show();
+        botonLogin.setEnabled(true);
+        botonLogin.setText("Login");
 
     }
 
@@ -105,8 +110,4 @@ public class LoginActivity extends AppCompatActivity{
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

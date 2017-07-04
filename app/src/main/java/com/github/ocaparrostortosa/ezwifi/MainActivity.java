@@ -18,6 +18,8 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent activityGuardar = new Intent(MainActivity.this, ActivityGuardar.class);
+                activityGuardar.putExtra("EXTRA_CURRENTUSER", currentUser);
                 MainActivity.this.startActivity(activityGuardar);
             }
         });
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent activityConsultar = new Intent(MainActivity.this, ActivityConsultar.class);
-
+                activityConsultar.putExtra("EXTRA_CURRENTUSER", currentUser);
                 MainActivity.this.startActivity(activityConsultar);
             }
         });
@@ -65,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void printCurrentUser(){
         TextView bienvenida = (TextView) findViewById(R.id.textViewBienvenida);
-        String username = getIntent().getStringExtra("EXTRA_USERNAME");
-        bienvenida.setText("¡Hola " + username + "!\n¿Qué deseas hacer?");
+        currentUser = getIntent().getStringExtra("EXTRA_USERNAME");
+        bienvenida.setText("¡Hola " + currentUser + "!\n¿Qué deseas hacer?");
     }
 
 }

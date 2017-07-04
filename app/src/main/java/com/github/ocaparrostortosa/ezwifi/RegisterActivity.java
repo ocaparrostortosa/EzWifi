@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.InterpolatorRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,8 +41,26 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         checkCorrectInformation();
+    }
+
+    /**
+     * Método que nos permite volver atrás para el botón de la flecha en la actionBar.
+     *
+     * @param item
+     * @return boolean
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return false;
+        }
     }
 
     public RegisterActivity(){}
@@ -146,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
                     botonRegistro.setEnabled(false);
                 }
             }else{
-                textoEstado.setText("\n¡El e-mail no es válido o ya está siendo usado por otro usuario! :(\n");
+                textoEstado.setText("\n¡El e-mail no es válido! :(\n");
                 textoEstado.setTextColor(Color.parseColor("#FF0000"));
                 return;
             }

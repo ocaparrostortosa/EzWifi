@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ActivityGuardar extends AppCompatActivity{
 
+    private String username;
+
     //FireBase auth object
     FirebaseDatabase database;
 
@@ -44,6 +46,7 @@ public class ActivityGuardar extends AppCompatActivity{
         setContentView(R.layout.activity_guardar);
         getSupportActionBar().setTitle("Guardar WiFi");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        username = getIntent().getStringExtra("EXTRA_CURRENTUSER");
         getAccionBotonGuardar();
 
     }
@@ -111,17 +114,7 @@ public class ActivityGuardar extends AppCompatActivity{
     }
 
     private void guardarDatosEnBD(String lugar, String nombre, String clave){
-        //database = FirebaseDatabase.getInstance();
-        //usuarioDAO = new UsuarioDAO(database, new Usuario("","",""));
-        wifiDAO = new DatosWifiDAO(new RedWifi(lugar, nombre, clave), new Usuario("correoUsuario", "nombreUsuario", "claveUsuario"));
+        wifiDAO = new DatosWifiDAO(new RedWifi(lugar, nombre, clave), username);
 
-
-        //TO-DO
-        /**
-         * PRÓXIMO DÍA: Empezar con FIREBASE y crear la BD y las tablas (usuarios y datosWifi [depende de usuario]).
-         *
-         * Antes de poder guardar los datos en la base de datos necesitaremos los correspondientes DTO, InterfacesDAO, DAO
-         * e inicializar las clases con los constructores pasándoles los DAO a parte de hacer la clase singlenton de Conexion.
-         */
     }
 }
