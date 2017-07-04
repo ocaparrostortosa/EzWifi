@@ -8,10 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,75 +27,28 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by Oscar on 30/06/2017.
  */
 
-public class LoginActivity extends AppCompatActivity implements OnCompleteListener{
+public class LoginActivity extends AppCompatActivity{
 
-    //private FirebaseAuth mAuth;
-    //private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase database;
+    private UsuarioDAO usuarioDAO;
+    private Button botonLogin;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-       // mAuth = FirebaseAuth.getInstance();
-
-       // getAccionBotonLogueo();
+        // ToolBarIcon code
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.my_icon);
+        getSupportActionBar().setTitle("Bienvenido a EzWifi");
+        //
         getAccionRegistro();
-/**
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("Usuario logueado: ", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("Usuario desconectado: ", "onAuthStateChanged:signed_out");
-                }
+        clickOnLoginButton();
 
-            }
-        };
- */
 
     }
-/*
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
-    private void getAccionBotonLogueo() {
-        String username = findViewById(R.id.editTextUsuario).toString();
-        String password = findViewById(R.id.editTextClave).toString();
-
-        mAuth.signInWithEmailAndPassword(username, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("Se ha iniciado sesión: ", "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w("signInWithEmail:failed", task.getException());
-                            Context context = getApplicationContext();
-                            Toast.makeText(context , "ERROR al iniciar sesión", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-*/
     private void getAccionRegistro(){
         TextView textoRegistro = (TextView) findViewById(R.id.lineaRegistrarse);
         textoRegistro.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +66,47 @@ public class LoginActivity extends AppCompatActivity implements OnCompleteListen
 
     }
 
-    @Override
-    public void onComplete(@NonNull Task task) {
+    private void getAccionBotonLogueo(){
+        EditText username = (EditText) findViewById(R.id.editTextUsuario);
+        EditText password = (EditText) findViewById(R.id.editTextClave);
 
+        String nombreUsuario = username.getText().toString();
+        String claveUsuario = password.getText().toString();
+        System.out.println(nombreUsuario + ":" + claveUsuario);
+
+        database = FirebaseDatabase.getInstance();
+
+        botonLogin.setEnabled(false);
+        botonLogin.setText("Cargando...");
+
+        usuarioDAO = new UsuarioDAO(database);
+        usuarioDAO.hacerLogin(nombreUsuario, claveUsuario, this);
+    }
+
+    public void accionUsuarioCorrecto(String username){
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        i.putExtra("EXTRA_USERNAME", username);
+        LoginActivity.this.startActivity(i);
+        finish();
+
+    }
+
+    public void accionUsuarioIncorrecto(){
+
+    }
+
+    private void clickOnLoginButton(){
+        botonLogin = (Button) findViewById(R.id.botonLogin);
+        botonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAccionBotonLogueo();
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

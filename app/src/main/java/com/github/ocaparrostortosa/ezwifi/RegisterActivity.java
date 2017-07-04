@@ -1,6 +1,7 @@
 package com.github.ocaparrostortosa.ezwifi;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.InterpolatorRes;
@@ -42,6 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         checkCorrectInformation();
     }
+
+    public RegisterActivity(){}
 
     private void checkCorrectInformation(){
         Button buttonRegistro = (Button) findViewById(R.id.botonRegistrarse);
@@ -94,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isCorrectUser(){
         botonRegistro.setEnabled(false);
 
+        textoEstado = (TextView) findViewById(R.id.lineaEstadoRegistro);
         usuarioRegistro = (EditText) findViewById(R.id.editTextUsuarioRegistro);
         emailRegistro = (EditText) findViewById(R.id.editTextEmailRegistro);
         claveRegistro = (EditText) findViewById(R.id.editTextClaveRegistro);
@@ -104,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         usuario = new Usuario(email, username, clave);
 
-        usuarioDAO.esUsuarioYaExistente(usuario, getApplicationContext(), botonRegistro);
+        usuarioDAO.esUsuarioYaExistente(usuario, botonRegistro, textoEstado, getApplicationContext(), this);
 
         /*
 
@@ -154,4 +158,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
+
+    public void cambiarDeActivity(String username){
+        Intent activityRegistro = new Intent(RegisterActivity.this, MainActivity.class);
+        activityRegistro.putExtra("EXTRA_USERNAME", username);
+        RegisterActivity.this.startActivity(activityRegistro);
+        finish();
+
+    }
+
+
 }

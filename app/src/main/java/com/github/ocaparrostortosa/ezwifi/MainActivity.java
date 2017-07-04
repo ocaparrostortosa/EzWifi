@@ -9,6 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.ocaparrostortosa.ezwifi.pojo.Usuario;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -22,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         //
         setInformationText();
         getButtonsActions();
+
+        printCurrentUser();
+
+
     }
 
     private void setInformationText(){
@@ -33,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private void getButtonsActions(){
         Button botonGuardar = (Button) findViewById(R.id.botonGuardar);
         Button botonConsultar = (Button) findViewById(R.id.botonConsultar);
-        Button botonLogin = (Button) findViewById(R.id.botonLogin);
 
         botonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,15 +61,12 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(activityConsultar);
             }
         });
+    }
 
-        botonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityLogin = new Intent(MainActivity.this, LoginActivity.class);
-
-                MainActivity.this.startActivity(activityLogin);
-            }
-        });
+    private void printCurrentUser(){
+        TextView bienvenida = (TextView) findViewById(R.id.textViewBienvenida);
+        String username = getIntent().getStringExtra("EXTRA_USERNAME");
+        bienvenida.setText("¡Hola " + username + "!\n¿Qué deseas hacer?");
     }
 
 }

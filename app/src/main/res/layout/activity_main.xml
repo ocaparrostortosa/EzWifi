@@ -25,7 +25,7 @@
         android:weightSum="1">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewBienvenida"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -68,13 +68,6 @@
                 android:layout_height="279dp"
                 android:gravity="bottom"
                 android:text="Example" />
-
-            <Button
-                android:id="@+id/botonLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LOGIN"/>
-
 
 
         </LinearLayout>

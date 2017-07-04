@@ -51,7 +51,7 @@
                     android:textAlignment="textEnd"
                     android:textStyle="bold"
                     android:textSize="16dp"
-                    android:text="\nE-mail:  \n"/>
+                    android:text="\n*E-mail:  \n"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:textAlignment="textEnd"
                     android:textStyle="bold"
                     android:textSize="16dp"
-                    android:text="Contraseña:  \n"/>
+                    android:text="*Contraseña:  \n"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -128,7 +128,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.50"
+        android:layout_weight="0.60"
         android:orientation="vertical">
 
         <TextView
@@ -142,25 +142,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/botonRegistrarse"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5.7"
+                android:layout_width="250dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.9"
                 android:gravity="center"
                 android:text="Registrarse"/>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="\n *Contraseña: Será guardada en un servidor público y como texto plano.\n *E-mail: Será usado para enviarle sus datos y no perderlos."
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
