@@ -73,14 +73,12 @@ public class UsuarioDAO extends AppCompatActivity{
         usernameRef.setValue(usuario.getUsername());
         userPassRef.setValue(usuario.getPassword());
 
-        System.out.println("Usuario creado!");
         boton.setEnabled(true);
 
         estado.setText("\n¡Usuario creado satisfactoriamente!:D\n");
         estado.setTextColor(Color.parseColor("#FF0FE300"));
 
         registerActivity.cambiarDeActivity(usuario.getUsername());
-        //System.exit(0);
     }
 
     public void hacerLogin(final String username, final String contraseña, final LoginActivity loginActivity){

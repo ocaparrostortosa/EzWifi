@@ -72,7 +72,6 @@ public class LoginActivity extends AppCompatActivity{
 
         String nombreUsuario = username.getText().toString();
         String claveUsuario = password.getText().toString();
-        System.out.println(nombreUsuario + ":" + claveUsuario);
 
         database = FirebaseDatabase.getInstance();
 

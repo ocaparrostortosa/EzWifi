@@ -114,7 +114,7 @@ public class ActivityGuardar extends AppCompatActivity{
     }
 
     private void guardarDatosEnBD(String lugar, String nombre, String clave){
-        wifiDAO = new DatosWifiDAO(new RedWifi(lugar, nombre, clave), username);
+        wifiDAO = new DatosWifiDAO(new RedWifi(lugar, nombre, clave), username, this);
 
     }
 }
