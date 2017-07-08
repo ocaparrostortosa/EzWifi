@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:id="@+id/activityConsultar">
 
     <TableLayout
@@ -10,7 +11,52 @@
         android:layout_height="0dp"
         android:layout_weight="0"
         android:orientation="vertical"
-        ></TableLayout>
+        android:gravity="center|top"
+        android:stretchColumns="3"
+        >
+
+        <TableRow
+            android:id="@+id/tituloTabla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/columnarLugar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Lugar"
+                android:textColor="#fa1a1a"
+                android:textSize="20dp"
+                />
+
+            <TextView
+                android:id="@+id/columnarNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Nombre"
+                android:textColor="#fa1a1a"
+                android:textSize="20dp"
+                />
+
+            <TextView
+                android:id="@+id/columnarClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Clave"
+                android:textColor="#fa1a1a"
+                android:textSize="20dp"
+                />
+
+        </TableRow>
+
+    </TableLayout>
 
     <TextView
         android:id="@+id/tableTextTitulo"

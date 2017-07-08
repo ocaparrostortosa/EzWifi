@@ -8,8 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -39,6 +41,7 @@ public class ActivityConsultar extends AppCompatActivity{
     private DatabaseReference lugarRef;
     private DatabaseReference nombreRef;
     private DatabaseReference claveRef;
+    private DatabaseReference elementoRef;
     //
     private DatabaseReference clavesTotales;
     private UsuarioDAO userDao;
@@ -54,6 +57,7 @@ public class ActivityConsultar extends AppCompatActivity{
     private String lugarWifi;
     private String nombreWifi;
     private String claveWifi;
+    private String elementoWifi;
     private int i;
 
     @Override
@@ -153,17 +157,16 @@ public class ActivityConsultar extends AppCompatActivity{
 
         for(i=1 ; i <= numeroTotalClaves ; i++){
             filaTabla = new TableRow(this);
-            filaTabla.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-            lugarRef = database.getReference(userPath + "/clavesGuardadas/" + i + "/lugarWifi");
-            nombreRef = database.getReference(userPath + "/clavesGuardadas/" + i + "/nombreWifi");
-            claveRef = database.getReference(userPath + "/clavesGuardadas/" + i + "/claveWifi");
+            elementoRef = database.getReference(userPath + "/clavesGuardadas/" + i);
 
-            lugarRef.addValueEventListener(new ValueEventListener() {
+            elementoRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    lugarWifi = dataSnapshot.getValue().toString();
-                    obtenerValorDelLugar(lugarWifi);
+                    lugarWifi = dataSnapshot.child("lugarWifi").getValue().toString();
+                    nombreWifi = dataSnapshot.child("nombreWifi").getValue().toString();
+                    claveWifi = dataSnapshot.child("claveWifi").getValue().toString();
+                    addFilaALaTabla(lugarWifi, nombreWifi, claveWifi, filaTabla);
                 }
 
                 @Override
@@ -171,35 +174,25 @@ public class ActivityConsultar extends AppCompatActivity{
 
                 }
             });
-
-            nombreRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    nombreWifi = dataSnapshot.getValue().toString();
-                    obtenerValorDelNombre(nombreWifi);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-            claveRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    claveWifi = dataSnapshot.getValue().toString();
-                    obtenerValorDeLaClave(claveWifi);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            if(i == numeroTotalClaves)
-                tableLayout.addView(filaTabla);
         }
+
+    }
+
+    private void addFilaALaTabla(String lugar, String nombre, String clave, TableRow filaTabla){
+        obtenerValorDelLugar(lugar);
+        obtenerValorDelNombre(nombre);
+        obtenerValorDeLaClave(clave);
+
+        filaTabla.addView(primeraColumna);
+        filaTabla.addView(segundaColumna);
+        filaTabla.addView(terceraColumna);
+
+        System.out.println("Añadiendo fila...");
+        if(filaTabla.getParent() != null)
+            ((ViewGroup)filaTabla.getParent()).removeView(filaTabla);
+
+        filaTabla.setGravity(Gravity.CENTER);
+        tableLayout.addView(filaTabla);
 
     }
 
@@ -208,8 +201,8 @@ public class ActivityConsultar extends AppCompatActivity{
         primeraColumna.setText(lugarWifi);
         primeraColumna.setTextColor(Color.BLACK);
         primeraColumna.setTextSize(14);
+        primeraColumna.setGravity(Gravity.CENTER);
 
-        filaTabla.addView(primeraColumna);
         System.out.println("Primera columna añadida");
     }
 
@@ -218,9 +211,9 @@ public class ActivityConsultar extends AppCompatActivity{
         segundaColumna.setText(nombreWifi);
         segundaColumna.setTextColor(Color.BLACK);
         segundaColumna.setTextSize(14);
+        segundaColumna.setGravity(Gravity.CENTER);
 
-        filaTabla.addView(segundaColumna);
-        System.out.println("Ter columna añadida");
+        System.out.println("Seg columna añadida");
     }
 
     private void obtenerValorDeLaClave(String claveWifi){
@@ -228,13 +221,10 @@ public class ActivityConsultar extends AppCompatActivity{
         terceraColumna.setText(claveWifi);
         terceraColumna.setTextColor(Color.BLACK);
         terceraColumna.setTextSize(14);
-
-        filaTabla.addView(terceraColumna);
+        terceraColumna.setGravity(Gravity.CENTER);
 
         checkBox = new CheckBox(getApplicationContext());
-        filaTabla.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        filaTabla.addView(checkBox);
-        System.out.println("Seg columna añadida");
-
+        
+        System.out.println("Ter columna añadida");
     }
 }
