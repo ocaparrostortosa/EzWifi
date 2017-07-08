@@ -1,5 +1,8 @@
 package com.github.ocaparrostortosa.ezwifi;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,10 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.DatosWifiDAO;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.UsuarioDAO;
@@ -28,6 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Oscar on 29/06/2017.
@@ -50,14 +59,14 @@ public class ActivityConsultar extends AppCompatActivity{
     private String numeroDeClaves = "0";
     private TableLayout tableLayout;
     private TableRow filaTabla;
-    private TextView primeraColumna;
-    private TextView segundaColumna;
-    private TextView terceraColumna;
-    private CheckBox checkBox;
+    private ImageView iconoCopiar;
+    private TableRow.LayoutParams layoutFila =
+            new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+    private TableRow.LayoutParams layoutElemento =
+            new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
     private String lugarWifi;
     private String nombreWifi;
     private String claveWifi;
-    private String elementoWifi;
     private int i;
 
     @Override
@@ -141,7 +150,6 @@ public class ActivityConsultar extends AppCompatActivity{
             tableParams.weight = 1;
             tableLayout.setLayoutParams(tableParams);
 
-
             setTableConfiguration(tableLayout, numeroDeClaves);
         }
     }
@@ -156,8 +164,6 @@ public class ActivityConsultar extends AppCompatActivity{
         int numeroTotalClaves = Integer.parseInt(numeroDeCLaves);
 
         for(i=1 ; i <= numeroTotalClaves ; i++){
-            filaTabla = new TableRow(this);
-
             elementoRef = database.getReference(userPath + "/clavesGuardadas/" + i);
 
             elementoRef.addValueEventListener(new ValueEventListener() {
@@ -179,52 +185,63 @@ public class ActivityConsultar extends AppCompatActivity{
     }
 
     private void addFilaALaTabla(String lugar, String nombre, String clave, TableRow filaTabla){
-        obtenerValorDelLugar(lugar);
-        obtenerValorDelNombre(nombre);
-        obtenerValorDeLaClave(clave);
+        filaTabla = new TableRow(this);
 
-        filaTabla.addView(primeraColumna);
-        filaTabla.addView(segundaColumna);
-        filaTabla.addView(terceraColumna);
+        filaTabla.setLayoutParams(layoutFila);
+        filaTabla.setGravity(Gravity.CENTER);
+
+        this.claveWifi = clave;
+        this.filaTabla = filaTabla;
+
+        List<String> elementos = new ArrayList<>();
+        elementos.add(lugar);
+        elementos.add(nombre);
+        elementos.add(clave);
+
+        insertarElementosFila(elementos);
 
         System.out.println("Añadiendo fila...");
         if(filaTabla.getParent() != null)
             ((ViewGroup)filaTabla.getParent()).removeView(filaTabla);
 
         filaTabla.setGravity(Gravity.CENTER);
+
+        System.out.println(filaTabla.toString());
         tableLayout.addView(filaTabla);
 
     }
 
-    private void obtenerValorDelLugar(String lugarWifi){
-        primeraColumna = new TextView(getApplicationContext());
-        primeraColumna.setText(lugarWifi);
-        primeraColumna.setTextColor(Color.BLACK);
-        primeraColumna.setTextSize(14);
-        primeraColumna.setGravity(Gravity.CENTER);
+    private void insertarElementosFila(List<String> elementos){
+        for(int i = 0; i< elementos.size(); i++)
+        {
+            TextView texto = new TextView(this);
+            texto.setText(String.valueOf(elementos.get(i)));
+            texto.setGravity(Gravity.CENTER_HORIZONTAL);
+            texto.setLayoutParams(layoutElemento);
+            texto.setTextSize(15);
+            texto.setPadding(20,0,0,20);
 
-        System.out.println("Primera columna añadida");
-    }
+            filaTabla.addView(texto);
+        }
+        iconoCopiar = new ImageView(this);
+        iconoCopiar.setImageResource(R.drawable.icono_copiar2);
+        iconoCopiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Clave copiada", claveWifi);
+                clipboard.setPrimaryClip(clip);
 
-    private void obtenerValorDelNombre(String nombreWifi){
-        segundaColumna = new TextView(getApplicationContext());
-        segundaColumna.setText(nombreWifi);
-        segundaColumna.setTextColor(Color.BLACK);
-        segundaColumna.setTextSize(14);
-        segundaColumna.setGravity(Gravity.CENTER);
+                Toast toast = Toast.makeText(getApplicationContext(), "¡Clave copiada al portapapeles! :D", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
+        /**
+         * A LA HORA DE COPIAR LAS CLAVES SIEMPRE COPIA LA ULTIMA AGREGADA. ARREGLAR EL TEMA DE LA RESOLUCION DE LA LETRA Y DE
+         * LA IMAGEN
+         */
 
-        System.out.println("Seg columna añadida");
-    }
-
-    private void obtenerValorDeLaClave(String claveWifi){
-        terceraColumna = new TextView(getApplicationContext());
-        terceraColumna.setText(claveWifi);
-        terceraColumna.setTextColor(Color.BLACK);
-        terceraColumna.setTextSize(14);
-        terceraColumna.setGravity(Gravity.CENTER);
-
-        checkBox = new CheckBox(getApplicationContext());
-        
-        System.out.println("Ter columna añadida");
+        filaTabla.addView(iconoCopiar);
     }
 }
