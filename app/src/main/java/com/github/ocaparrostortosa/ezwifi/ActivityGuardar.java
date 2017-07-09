@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.connection.NetworkStatus;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.DatosWifiDAO;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.UsuarioDAO;
 import com.github.ocaparrostortosa.ezwifi.pojo.RedWifi;
@@ -73,23 +74,25 @@ public class ActivityGuardar extends AppCompatActivity{
         botonGuardarDatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText ETlugar = (EditText) findViewById(R.id.editTextLugar);
-                EditText ETnombre = (EditText) findViewById(R.id.editTextNombre);
-                EditText ETclave = (EditText) findViewById(R.id.editTextClave);
-                String lugar = ETlugar.getText().toString();
-                String nombre = ETnombre.getText().toString();
-                String clave = ETclave.getText().toString();
-                if(lugar.matches("")){
-                    Toast toast = Toast.makeText(getApplicationContext(), "¡ERROR! Ningún campo puede estar vacío.", Toast.LENGTH_SHORT);
-                    toast.show();
-                }else if(nombre.matches("")){
-                    Toast toast = Toast.makeText(getApplicationContext(), "¡ERROR! Ningún campo puede estar vacío.", Toast.LENGTH_SHORT);
-                    toast.show();
-                }else if(clave.matches("")){
-                    Toast toast = Toast.makeText(getApplicationContext(), "¡ERROR! Ningún campo puede estar vacío.", Toast.LENGTH_SHORT);
-                    toast.show();
-                }else{
-                    exitoEnGuardar(lugar, nombre, clave);
+                if(isNetworkAvailable()) {
+                    EditText ETlugar = (EditText) findViewById(R.id.editTextLugar);
+                    EditText ETnombre = (EditText) findViewById(R.id.editTextNombre);
+                    EditText ETclave = (EditText) findViewById(R.id.editTextClave);
+                    String lugar = ETlugar.getText().toString();
+                    String nombre = ETnombre.getText().toString();
+                    String clave = ETclave.getText().toString();
+                    if (lugar.matches("")) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "¡ERROR! Ningún campo puede estar vacío.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (nombre.matches("")) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "¡ERROR! Ningún campo puede estar vacío.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (clave.matches("")) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "¡ERROR! Ningún campo puede estar vacío.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else {
+                        exitoEnGuardar(lugar, nombre, clave);
+                    }
                 }
             }
         });
@@ -117,4 +120,10 @@ public class ActivityGuardar extends AppCompatActivity{
         wifiDAO = new DatosWifiDAO(new RedWifi(lugar, nombre, clave), username, this);
 
     }
+
+    private boolean isNetworkAvailable(){
+        //Saber si hay conexion a internet disponible
+        return NetworkStatus.isNetworkAvailable(getApplicationContext(), this);
+    }
+
 }

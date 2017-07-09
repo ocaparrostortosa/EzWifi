@@ -3,13 +3,16 @@ package com.github.ocaparrostortosa.ezwifi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -19,11 +22,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.connection.NetworkStatus;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.DatosWifiDAO;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.UsuarioDAO;
 import com.google.firebase.database.DataSnapshot;
@@ -75,6 +80,7 @@ public class ActivityConsultar extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         username = getIntent().getStringExtra("EXTRA_CURRENTUSER");
 
+        isNetworkAvailable();
         inicialize();
     }
 
@@ -96,6 +102,8 @@ public class ActivityConsultar extends AppCompatActivity{
     }
 
     private void inicialize(){
+        girarPantallaParaMejorVision();
+
         database = FirebaseDatabase.getInstance();
 
         userDao = new UsuarioDAO(database);
@@ -128,8 +136,11 @@ public class ActivityConsultar extends AppCompatActivity{
         tableLayout = (TableLayout) findViewById(R.id.tableLayout);
         TextView tableTextTitulo = (TextView) findViewById(R.id.tableTextTitulo);
         TextView tableTextContenido = (TextView) findViewById(R.id.tableTextContenido);
+        ScrollView scrollVertical = (ScrollView) findViewById(R.id.scrollVertical);
 
         if(numeroDeClaves.equals("null")){
+            scrollVertical.setVisibility(View.GONE);
+
             LinearLayout.LayoutParams titleParams = (LinearLayout.LayoutParams) tableTextTitulo.getLayoutParams();
             titleParams.weight = 1;
             tableTextTitulo.setLayoutParams(titleParams);
@@ -249,11 +260,22 @@ public class ActivityConsultar extends AppCompatActivity{
                 toast.show();
             }
         });
-        /**
-         * A LA HORA DE COPIAR LAS CLAVES SIEMPRE COPIA LA ULTIMA AGREGADA. ARREGLAR EL TEMA DE LA RESOLUCION DE LA LETRA Y DE
-         * LA IMAGEN
-         */
 
         filaTabla.addView(iconoCopiar);
     }
+
+    private void isNetworkAvailable(){
+        //Saber si hay conexion a internet disponible
+        NetworkStatus.isNetworkAvailable(getApplicationContext(), this);
+    }
+
+    private void girarPantallaParaMejorVision(){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast toast = Toast.makeText(getApplicationContext(), "¡Hola! Para mejorar tu experiencia de usuario te recomiendo girar la pantalla"
+                    , Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
+
 }

@@ -1,20 +1,14 @@
 package com.github.ocaparrostortosa.ezwifi;
 
-import android.app.ActionBar;
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.connection.NetworkStatus;
 
-import com.github.ocaparrostortosa.ezwifi.pojo.Usuario;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,5 +65,4 @@ public class MainActivity extends AppCompatActivity {
         currentUser = getIntent().getStringExtra("EXTRA_USERNAME");
         bienvenida.setText("¡Hola " + currentUser + "!\n¿Qué deseas hacer?");
     }
-
 }

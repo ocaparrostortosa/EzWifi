@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.InterpolatorRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -13,8 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.connection.NetworkStatus;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.UsuarioDAO;
 import com.github.ocaparrostortosa.ezwifi.pojo.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
@@ -24,6 +31,10 @@ import org.w3c.dom.Text;
  */
 
 public class RegisterActivity extends AppCompatActivity {
+
+    //
+    //FirebaseAuth.AuthStateListener mAuthListener;
+    //
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private UsuarioDAO usuarioDAO;
@@ -44,6 +55,19 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         checkCorrectInformation();
+        /**
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null){
+                    System.out.println("Sesion iniciada: " + user.getEmail());
+                }else {
+                    System.out.println("Sesion cerrada.");
+                }
+            }
+        };
+         */
     }
 
     /**
@@ -141,41 +165,70 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void getRegisterButtonAction(){
+        isNetworkAvailable();
+
         textoEstado = (TextView) findViewById(R.id.lineaEstadoRegistro);
         botonRegistro = (Button) findViewById(R.id.botonRegistrarse);
         usuarioRegistro = (EditText) findViewById(R.id.editTextUsuarioRegistro);
         emailRegistro = (EditText) findViewById(R.id.editTextEmailRegistro);
         claveRegistro = (EditText) findViewById(R.id.editTextClaveRegistro);
 
-        String username = usuarioRegistro.getText().toString();
-        String email = emailRegistro.getText().toString();
-        String clave = claveRegistro.getText().toString();
+        username = usuarioRegistro.getText().toString();
+        email = emailRegistro.getText().toString();
+        clave = claveRegistro.getText().toString();
+
+        logueoCorrecto();
+        /**
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,clave).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    System.out.println("Se ha creado el usuario ");
+                }else{
+                    System.out.println("No se ha creado el usuario \n" + task.getException().getMessage());
+                }
+            }
+        });
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, clave).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    logueoCorrecto();
+                }else{
+
+                }
+            }
+        });*/
+
+    }
+
+    private void logueoCorrecto() {
+        System.out.println("Seguimos con el programa");
         usuario = new Usuario(email, username, clave);
         usuarioDAO = new UsuarioDAO(database, usuario);
-        //usuarioDAO.getUserValues(username);
 
-        if(isCorrectPassword()){
+        if (isCorrectPassword()) {
             textoEstado.setText("\n\n");
-            if(isCorrectEmail()){
-               textoEstado.setText("\n\n");
-                if(isCorrectUser()) {
+            if (isCorrectEmail()) {
+                textoEstado.setText("\n\n");
+                if (isCorrectUser()) {
                     textoEstado.setText("\n¡Registro satisfactorio! :)\n");
                     textoEstado.setTextColor(Color.parseColor("#FF0FE300"));
                     botonRegistro.setText("Redireccionando...");
                     botonRegistro.setEnabled(false);
                 }
-            }else{
+            } else {
                 textoEstado.setText("\n¡El e-mail no es válido! :(\n");
                 textoEstado.setTextColor(Color.parseColor("#FF0000"));
                 return;
             }
 
-        }else{
+        } else {
             textoEstado.setText("\n¡Las contraseñas no coinciden o son inválidas! :(\n");
             textoEstado.setTextColor(Color.parseColor("#FF0000"));
             return;
         }
-
     }
 
     public void cambiarDeActivity(String username){
@@ -186,5 +239,22 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    private void isNetworkAvailable(){
+        //Saber si hay conexion a internet disponible
+        NetworkStatus.isNetworkAvailable(getApplicationContext(), this);
+    }
+    /**
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAuthListener != null)
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
+    }
+    */
 }
