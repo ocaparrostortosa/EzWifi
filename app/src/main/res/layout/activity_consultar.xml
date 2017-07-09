@@ -42,34 +42,49 @@
                         android:gravity="left">
 
                         <TextView
-                            android:id="@+id/columnarLugar"
+                            android:id="@+id/columnaLugar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
                             android:paddingLeft="20dp"
+                            android:gravity="bottom"
                             android:text="Lugar"
                             android:textColor="#fa1a1a"
+                            android:textAlignment="center"
                             android:textSize="25dp" />
 
                         <TextView
-                            android:id="@+id/columnarNombre"
+                            android:id="@+id/columnaNombre"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
                             android:paddingLeft="20dp"
+                            android:gravity="bottom"
                             android:text="Nombre"
+                            android:textAlignment="center"
                             android:textColor="#fa1a1a"
                             android:textSize="25dp" />
 
                         <TextView
-                            android:id="@+id/columnarClave"
+                            android:id="@+id/columnaClave"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
+                            android:gravity="bottom"
                             android:paddingLeft="20dp"
                             android:text="Clave"
+                            android:textAlignment="center"
                             android:textColor="#fa1a1a"
                             android:textSize="25dp" />
+
+                        <TextView
+                            android:id="@+id/columnaCopiar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:paddingLeft="10dp"
+                            android:text="Copiar clave\n⬇"
+                            android:textAlignment="center"
+                            android:textColor="#fa1a1a"
+                            android:textSize="25dp" />
+
 
                     </TableRow>
 

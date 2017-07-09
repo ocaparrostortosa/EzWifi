@@ -45,13 +45,9 @@ import java.util.Locale;
 public class ActivityConsultar extends AppCompatActivity{
 
     private FirebaseDatabase database;
-    private DatabaseReference userRef;
-    //
-    private DatabaseReference lugarRef;
-    private DatabaseReference nombreRef;
-    private DatabaseReference claveRef;
+
     private DatabaseReference elementoRef;
-    //
+
     private DatabaseReference clavesTotales;
     private UsuarioDAO userDao;
     private String username;
@@ -67,6 +63,8 @@ public class ActivityConsultar extends AppCompatActivity{
     private String lugarWifi;
     private String nombreWifi;
     private String claveWifi;
+    private List<String> todasLasClaves = new ArrayList<>();;
+    private String claveAGuardar;
     private int i;
 
     @Override
@@ -165,6 +163,7 @@ public class ActivityConsultar extends AppCompatActivity{
 
         for(i=1 ; i <= numeroTotalClaves ; i++){
             elementoRef = database.getReference(userPath + "/clavesGuardadas/" + i);
+            final int contador = i;
 
             elementoRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -172,7 +171,7 @@ public class ActivityConsultar extends AppCompatActivity{
                     lugarWifi = dataSnapshot.child("lugarWifi").getValue().toString();
                     nombreWifi = dataSnapshot.child("nombreWifi").getValue().toString();
                     claveWifi = dataSnapshot.child("claveWifi").getValue().toString();
-                    addFilaALaTabla(lugarWifi, nombreWifi, claveWifi, filaTabla);
+                    addFilaALaTabla(lugarWifi, nombreWifi, claveWifi, filaTabla, contador);
                 }
 
                 @Override
@@ -184,7 +183,8 @@ public class ActivityConsultar extends AppCompatActivity{
 
     }
 
-    private void addFilaALaTabla(String lugar, String nombre, String clave, TableRow filaTabla){
+    private void addFilaALaTabla(String lugar, String nombre, String clave, TableRow filaTabla, int numeroTotal){
+
         filaTabla = new TableRow(this);
 
         filaTabla.setLayoutParams(layoutFila);
@@ -198,20 +198,25 @@ public class ActivityConsultar extends AppCompatActivity{
         elementos.add(nombre);
         elementos.add(clave);
 
-        insertarElementosFila(elementos);
+        todasLasClaves.add(elementos.get(2));
+
+        insertarElementosFila(elementos, numeroTotal);
 
         System.out.println("Añadiendo fila...");
         if(filaTabla.getParent() != null)
             ((ViewGroup)filaTabla.getParent()).removeView(filaTabla);
 
         filaTabla.setGravity(Gravity.CENTER);
+        if(numeroTotal%2 == 0)
+            filaTabla.setBackgroundResource(R.drawable.tabla_celda1);
+        else
+            filaTabla.setBackgroundResource(R.drawable.tabla_celda2);
 
-        System.out.println(filaTabla.toString());
         tableLayout.addView(filaTabla);
 
     }
 
-    private void insertarElementosFila(List<String> elementos){
+    private void insertarElementosFila(final List<String> elementos, int iconoId){
         for(int i = 0; i< elementos.size(); i++)
         {
             TextView texto = new TextView(this);
@@ -223,16 +228,23 @@ public class ActivityConsultar extends AppCompatActivity{
 
             filaTabla.addView(texto);
         }
+
         iconoCopiar = new ImageView(this);
+        if(iconoId%2 == 0)
+            iconoCopiar.setBackgroundResource(R.drawable.tabla_celdaicono1);
+        else
+            iconoCopiar.setBackgroundResource(R.drawable.tabla_celdaicono2);
+        iconoCopiar.setId(iconoId);
         iconoCopiar.setImageResource(R.drawable.icono_copiar2);
         iconoCopiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Clave copiada", claveWifi);
+                ClipData clip = ClipData.newPlainText("Clave copiada", todasLasClaves.get(v.getId()-1));
                 clipboard.setPrimaryClip(clip);
 
-                Toast toast = Toast.makeText(getApplicationContext(), "¡Clave copiada al portapapeles! :D", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "¡Clave '" + todasLasClaves.get(v.getId()-1) +
+                        "' copiada al portapapeles! :D", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0);
                 toast.show();
             }
