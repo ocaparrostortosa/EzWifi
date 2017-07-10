@@ -1,13 +1,11 @@
 package com.github.ocaparrostortosa.ezwifi;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.InterpolatorRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +15,7 @@ import android.widget.TextView;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.connection.NetworkStatus;
 import com.github.ocaparrostortosa.ezwifi.com.github.ocaparrostortosa.ezwifi.dao.UsuarioDAO;
 import com.github.ocaparrostortosa.ezwifi.pojo.Usuario;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by Oscar on 01/07/2017.
@@ -243,6 +234,7 @@ public class RegisterActivity extends AppCompatActivity {
         //Saber si hay conexion a internet disponible
         NetworkStatus.isNetworkAvailable(getApplicationContext(), this);
     }
+
     /**
     @Override
     protected void onStart() {
