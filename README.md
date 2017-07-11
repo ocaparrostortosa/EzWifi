@@ -51,3 +51,44 @@ Creada por Óscar Caparrós de forma autodidacta para aprender Android y estable
 
 
 Android application used to save data from wifi networks depending on a registered user supported by a Firebase database.
+
+Created by Óscar Caparrós self-taught to learn Android and establish bases for the second course of C.F.G.S. Development of Applications Multiplatform in the high school I.E.S. Virgen del Carmen.
+
+The application was designed to satisfy a need of its own and some family and friends. The need was to save the passwords
+ of WiFi keys to be able in the future to have a copy of the keys in the cloud in case of a format of the mobile or the deletion of the key.
+ 
+ As part of the extension of the project I would like to obtain from the mobile registry the keys already saved and be able to upload them to the cloud.
+ 
+ The basic use of the application is:
+ 
+ - Register: Create a new user in the database and automatically log in with that user.
+ - Log in: It allows to log in depending on a user and a password.
+ - Save Key: Allows you to save a place, name and password for the WiFi network that will be stored in a Firebase database
+ in the section of the user logged in.
+ - Query key: It allows you, depending on the user, to obtain all the keys stored up to that moment by the user and at the same time copy
+ the key in the clipboard.
+ - Other actions: As for example blocking the application if you do not have an internet connection, make sure that the user's data can be
+ as clear as possible through regular expressions, several messages towards the client to improve their user experience, étc.
+ 
+ Known Issues
+  -------------------------------------------
+ 
+ First, several of the known problems are derived from lack of time when doing the project, they will also be corrected in the future.
+ 
+ - A problem for example would be to have a WiFi connection or data network of low stability, it would take a long time to get the data from the database.
+ - A second problem would be the user data, they will be stored in a public database so anyone could have access to them.
+ - TextFields have no control over their length so the user can save data as long as possible.
+ - The length of the table is greater than the width of the devices in most cases so I suggest the user to rotate the device for a better
+ user experience.
+ 
+ **Sorry for my English, I tried to correct my sentences with the Google translater.
+ 
+  Used Apps and Services
+ -------------------------------------------
+ ![Android Studio](https://3.bp.blogspot.com/-BVQ36vhFc0I/VsOpgnJmD-I/AAAAAAAAAFk/Z4BOOKmbxJ4/s1600/banner.PNG) 
+ 
+ ![Firebase](https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAuEAAAAJDllZmUxNmM0LTZiMWEtNGFiNi04ZTUwLTI5ZTcxOGFjZWNhMA.png)
+ 
+Acknowledgments to the community of:
+ 
+ ![Stackoverflow](https://upload.wikimedia.org/wikipedia/ro/f/f7/Stack_Overflow_logo.png)
