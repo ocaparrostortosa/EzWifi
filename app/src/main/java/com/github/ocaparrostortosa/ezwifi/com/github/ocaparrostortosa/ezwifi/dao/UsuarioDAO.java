@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Oscar on 30/06/2017.
+ *
+ * UsuarioDAO class is the DAO class for the users. It creates new users in the database and check the already existing users.
  */
 
 public class UsuarioDAO extends AppCompatActivity{
@@ -39,11 +41,19 @@ public class UsuarioDAO extends AppCompatActivity{
     DatabaseReference usernameRef;
     DatabaseReference userPassRef;
 
+    /**
+     * UsuarioDAO() main constructor.
+     * @param usuario new Usuario() to be saved.
+     */
     public UsuarioDAO(Usuario usuario){
         this.usuario = usuario;
         this.database = FirebaseDatabase.getInstance();
     }
 
+    /**
+     * UsuarioDAO() constructor to get the instance of the database.
+     * @param database Firebase database.
+     */
     public UsuarioDAO(FirebaseDatabase database){
         this.database = FirebaseDatabase.getInstance();
     }
@@ -54,6 +64,11 @@ public class UsuarioDAO extends AppCompatActivity{
         this.database = FirebaseDatabase.getInstance();
     }
 
+    /**
+     * getUserPath() returns the user database path.
+     * @param usuario an Usuario() object.
+     * @return String
+     */
     public String getUserPath(Usuario usuario){
         return "users/"+usuario.getUsername();
     }
@@ -62,6 +77,13 @@ public class UsuarioDAO extends AppCompatActivity{
         return "users/"+username;
     }
 
+    /**
+     * crearUnUsuarioEnBD() creates a new user in the database.
+     * @param usuario Usuario() object.
+     * @param boton Button to set graphic params.
+     * @param estado TextView to set user information.
+     * @param registerActivity RegisterActivity() to set graphic params.
+     */
     private void crearUnUsuarioEnBD(Usuario usuario, Button boton, TextView estado, RegisterActivity registerActivity){
         userPath = this.getUserPath(usuario);
 
@@ -81,6 +103,12 @@ public class UsuarioDAO extends AppCompatActivity{
         registerActivity.cambiarDeActivity(usuario.getUsername());
     }
 
+    /**
+     * hacerLogin() starts the login with the especific user.
+     * @param username String User name to log in.
+     * @param contraseña String User password.
+     * @param loginActivity LoginActivity() to change the Intent.
+     */
     public void hacerLogin(final String username, final String contraseña, final LoginActivity loginActivity){
         this.loginActivity = loginActivity;
         database = FirebaseDatabase.getInstance();
@@ -109,6 +137,15 @@ public class UsuarioDAO extends AppCompatActivity{
         });
     }
 
+    /**
+     * esUsuarioYaExistente() checks if the user who wants to register already exists.
+     * @param usuario Usuario() object.
+     * @param boton Button to set graphic settings.
+     * @param estado TextView to set user information.
+     * @param context Current context.
+     * @param registerActivity LoginActivity() to change graphic settings.
+     * @return boolean
+     */
     public boolean esUsuarioYaExistente(final Usuario usuario, final Button boton, final TextView estado,
                                         final Context context, final RegisterActivity registerActivity){
         success = false;
@@ -124,11 +161,10 @@ public class UsuarioDAO extends AppCompatActivity{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     Usuario u = dataSnapshot.getValue(Usuario.class);
-                    System.out.println("Dntro: " + u.toString());
+                    System.out.println("¿Usuario ya existente?: " + u.toString());
                     accionUsuarioInvalido(u.getUsername(), context, boton);
 
                 }catch (NullPointerException e){
-
                     System.out.println("Procedemos a la creacion del usuario");
                     new UsuarioDAO(usuario).crearUnUsuarioEnBD(usuario, boton, estado, registerActivity);
                 }
@@ -143,6 +179,12 @@ public class UsuarioDAO extends AppCompatActivity{
         return success;
     }
 
+    /**
+     * accionUsuarioInvalido() contains the code to say to the user that this user is invalid or already exists.
+     * @param username String user name.
+     * @param context Current context for graphic settings.
+     * @param botonRegistro Button for graphic settings.
+     */
     private void accionUsuarioInvalido(String username, Context context, Button botonRegistro){
         boton.setEnabled(true);
         boton.setText("Registrarse");

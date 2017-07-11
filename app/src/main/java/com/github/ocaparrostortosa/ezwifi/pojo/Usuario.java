@@ -2,6 +2,9 @@ package com.github.ocaparrostortosa.ezwifi.pojo;
 
 /**
  * Created by Oscar on 30/06/2017.
+ * Usuario is a POJO class to create new users objects.
+ * @author Oscar Caparros
+ * @version 1.0
  */
 
 public class Usuario {
@@ -10,8 +13,17 @@ public class Usuario {
     private String username;
     private String password;
 
+    /**
+     * Usuario() is the default constructor.
+     */
     public Usuario(){}
 
+    /**
+     * Usuario() is the main constructor. It contains getters and setters for all the attributes and override the toString method.
+     * @param email User email
+     * @param username User name
+     * @param password User password
+     */
     public Usuario(String email, String username, String password) {
         this.email = email;
         this.username = username;

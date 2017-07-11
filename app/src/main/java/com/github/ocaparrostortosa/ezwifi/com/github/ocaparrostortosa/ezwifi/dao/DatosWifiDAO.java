@@ -14,6 +14,10 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Oscar on 30/06/2017.
+ *
+ * DatosWifiDao is the DAO class for the WiFi networks. I use it to create new WiFi elements, set the params ...
+ * @author Oscar Caparros
+ * @version 1.0
  */
 
 public class DatosWifiDAO {
@@ -33,8 +37,17 @@ public class DatosWifiDAO {
     DatabaseReference setClavesGuardadas;
     DatabaseReference savedPasswords;
 
+    /**
+     * DatosWifiDAO() main constructor.
+     */
     public DatosWifiDAO(){}
 
+    /**
+     * DatosWifiDAO is a second constructor who initialice the value for the params.
+     * @param redWifi A new RedWifi() to save it in the database.
+     * @param username Current username logued in.
+     * @param activityGuardar Current ActivityGuardar to change graphic things.
+     */
     public DatosWifiDAO(RedWifi redWifi, String username, ActivityGuardar activityGuardar) {
         this.activityGuardar = activityGuardar;
         this.redWifi = redWifi;
@@ -42,6 +55,9 @@ public class DatosWifiDAO {
         setWifiParams();
     }
 
+    /**
+     * setWifiParams() get the UserPath to save in the FirebaseDatabase the user information.
+     */
     private void setWifiParams(){
         database = FirebaseDatabase.getInstance();
 
@@ -51,6 +67,9 @@ public class DatosWifiDAO {
         getNumberOfWifiElements();
     }
 
+    /**
+     * getNumberOfWifiElements() gives the number of wifi elements to control the app.
+     */
     private void getNumberOfWifiElements(){
         wifiElementsRef = database.getReference(userPath);
 
@@ -90,6 +109,10 @@ public class DatosWifiDAO {
 
     }
 
+    /**
+     * createNewWifiElement(numeroTotal) Takes the total number of the wifi elements and create a new one.
+     * @param numeroTotal Total number of the wifi elements in the database.
+     */
     private void createNewWifiElement(Long numeroTotal){
         numeroDeClave = numeroTotal;
 
@@ -105,14 +128,5 @@ public class DatosWifiDAO {
 
         setClavesGuardadas = database.getReference(userPath + "/clavesGuardadas/clavesTotales");
         setClavesGuardadas.setValue(numeroTotal);
-
-        /**
-         * YA HAS CONSEGUIDO OBTENER EL NUMERO DE CLAVES POR USUARIO Y AHORA SOLO TE FALTA IMPRIMIR LAS CLAVES
-         * EN EL MENU DE CONSULTAR WIFI.
-         */
-    }
-
-    public static String getNumeroTotalDeClaves(){
-        return numeroDeClave.toString();
     }
 }

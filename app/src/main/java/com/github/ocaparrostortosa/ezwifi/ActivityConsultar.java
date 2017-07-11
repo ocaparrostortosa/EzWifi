@@ -45,6 +45,11 @@ import java.util.Locale;
 
 /**
  * Created by Oscar on 29/06/2017.
+ *
+ * ActivityConsultar is the class which extends of AppCompatActivity and set the context view to consult the existing wifi elements.
+ *
+ * @author Oscar Caparros
+ * @version 1.0
  */
 
 public class ActivityConsultar extends AppCompatActivity{

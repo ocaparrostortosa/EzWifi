@@ -19,6 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Oscar on 01/07/2017.
+ *
+ * RegisterActivity is the class to create a new user and to start the save action in the database.
+ *
+ * @author Oscar Caparros
+ * @version 1.0
  */
 
 public class RegisterActivity extends AppCompatActivity {
@@ -78,8 +83,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Main constructor.
+     */
     public RegisterActivity(){}
 
+    /**
+     * checkCorrectInformation() check that the edittexts have a correct information to save it in the database.
+     */
     private void checkCorrectInformation(){
         Button buttonRegistro = (Button) findViewById(R.id.botonRegistrarse);
         buttonRegistro.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +102,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * isCorrectPassword() Check that the password is not empty and the repeat password has the same content.
+     * @return boolean
+     */
     private boolean isCorrectPassword(){
         claveRegistro = (EditText) findViewById(R.id.editTextClaveRegistro);
         EditText repetirClaveRegistro = (EditText) findViewById(R.id.editTextRepetirClaveRegistro);
@@ -105,6 +120,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * isCorrectEmail() checks if the email is not empty and it compare the content to a e-mail regular expresion.
+     * @return boolean
+     */
     private boolean isCorrectEmail(){
         emailRegistro = (EditText) findViewById(R.id.editTextEmailRegistro);
         String email = emailRegistro.getText().toString();
@@ -117,17 +136,17 @@ public class RegisterActivity extends AppCompatActivity {
                 "\\." +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                 ")+";
-        //usuarioDAO.getUserValues(username);
-        /**
-        if(usuarioDAO.esEmailYaExistente(username, email))
-            return false;
-         */
+
         if(email.matches(correctEmail))
             return true;
         else
             return false;
     }
 
+    /**
+     * isCorrectUser() Check if the user already exists in the database calling to the DAO class.
+     * @return boolean
+     */
     private boolean isCorrectUser(){
         botonRegistro.setEnabled(false);
 
@@ -155,6 +174,9 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * getRegisterButtonAction() gets the EditTexts information and check if the login its correctly.
+     */
     private void getRegisterButtonAction(){
         isNetworkAvailable();
 
@@ -194,8 +216,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * logueoCorrecto() Checks that the login its correctly.
+     */
     private void logueoCorrecto() {
-        System.out.println("Seguimos con el programa");
         usuario = new Usuario(email, username, clave);
         usuarioDAO = new UsuarioDAO(database, usuario);
 
@@ -222,6 +246,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * cambiarDeActivity(username) Changes the activity depending the user who logued in.
+     * @param username
+     */
     public void cambiarDeActivity(String username){
         Intent activityRegistro = new Intent(RegisterActivity.this, MainActivity.class);
         activityRegistro.putExtra("EXTRA_USERNAME", username);
@@ -230,6 +258,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * isNetworkAvailable() checks if the app has a network to connet to the Internet.
+     */
     private void isNetworkAvailable(){
         //Saber si hay conexion a internet disponible
         NetworkStatus.isNetworkAvailable(getApplicationContext(), this);
