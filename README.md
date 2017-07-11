@@ -33,6 +33,7 @@ Creada por Óscar Caparrós de forma autodidacta para aprender Android y estable
  - Los TextFields no tienen control sobre su longitud por lo que el usuario podrá guardar datos tan largos como sea posible.
  - La longitud de la tabla es mayor que la anchura de los dispositivos en la mayoría de los casos por lo que sugiero al usuario girar el dispositivo para una mejor
  experiencia de usuario.
+ - No se pueden eliminar contraseñas desde la aplicación.
  
  Aplicaciones y servicios usados
  -------------------------------------------
@@ -80,6 +81,7 @@ The application was designed to satisfy a need of its own and some family and fr
  - TextFields have no control over their length so the user can save data as long as possible.
  - The length of the table is greater than the width of the devices in most cases so I suggest the user to rotate the device for a better
  user experience.
+ - The user cannot delete the wifi element from the app.
  
  **Sorry for my English, I tried to correct my sentences with the Google translater.
  
