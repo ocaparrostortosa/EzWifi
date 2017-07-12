@@ -106,6 +106,9 @@ public class ActivityConsultar extends AppCompatActivity{
         }
     }
 
+    /**
+     * inicialize() method has the first code to inicialize the app.
+     */
     private void inicialize(){
         girarPantallaParaMejorVision();
 
@@ -137,6 +140,10 @@ public class ActivityConsultar extends AppCompatActivity{
 
     }
 
+    /**
+     * printInformationIntoLayout() method prints to the layout the information about the status of the saved wifi elements or
+     * about an empty database.
+     */
     private void printInformationIntoLayout(){
         tableLayout = (TableLayout) findViewById(R.id.tableLayout);
         TextView tableTextTitulo = (TextView) findViewById(R.id.tableTextTitulo);
@@ -168,12 +175,23 @@ public class ActivityConsultar extends AppCompatActivity{
         }
     }
 
+    /**
+     *  setTextConfiguration() prints in the layout a text which inform to the user about an empty database and where can he/she
+     *  save a wifi element.
+     * @param titulo Title of the text information
+     * @param contenido Content of the text information
+     */
     private void setTextConfiguration(TextView titulo, TextView contenido){
         titulo.setText("¡Lo sentimos! :(\n");
         contenido.setText("Aún no has guardado ninguna contraseña para ningún WiFi. Prueba a guardar una en:\n\n "
                 + "Menú principal ➔ GUARDAR CONTRASEÑA");
     }
 
+    /**
+     * setTableConfiguration() set the values and the design of the table.
+     * @param tableLayout main TableLayout
+     * @param numeroDeCLaves Number of wifi elements in the database.
+     */
     private void setTableConfiguration(TableLayout tableLayout, String numeroDeCLaves){
         int numeroTotalClaves = Integer.parseInt(numeroDeCLaves);
 
@@ -199,6 +217,14 @@ public class ActivityConsultar extends AppCompatActivity{
 
     }
 
+    /**
+     * addFilaTabla() adds to the TableLayout a new row with a new wifi element information.
+     * @param lugar Site of the wifi element.
+     * @param nombre Name of the wifi element.
+     * @param clave Password of the wifi element.
+     * @param filaTabla Row of the wifi element.
+     * @param numeroTotal Number of wifi elements in the database.
+     */
     private void addFilaALaTabla(String lugar, String nombre, String clave, TableRow filaTabla, int numeroTotal){
 
         filaTabla = new TableRow(this);
@@ -232,6 +258,11 @@ public class ActivityConsultar extends AppCompatActivity{
 
     }
 
+    /**
+     * insertarElementosFila() adds to the new row the wifi element information.
+     * @param elementos List of row elements.
+     * @param iconoId Id of the clipboard icon.
+     */
     private void insertarElementosFila(final List<String> elementos, int iconoId){
         for(int i = 0; i< elementos.size(); i++)
         {
@@ -269,11 +300,17 @@ public class ActivityConsultar extends AppCompatActivity{
         filaTabla.addView(iconoCopiar);
     }
 
+    /**
+     * isNetworkAvailable() checks if the app has a internet connection.
+     */
     private void isNetworkAvailable(){
         //Saber si hay conexion a internet disponible
         NetworkStatus.isNetworkAvailable(getApplicationContext(), this);
     }
 
+    /**
+     * girarPantallaParaMejorVision() inform to the user with a toast the better vision for the app.
+     */
     private void girarPantallaParaMejorVision(){
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             Toast toast = Toast.makeText(getApplicationContext(), "¡Hola! Para mejorar tu experiencia de usuario te recomiendo girar la pantalla"

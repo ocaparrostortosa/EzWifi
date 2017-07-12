@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         // ToolBarIcon code
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.my_icon);
-        getSupportActionBar().setTitle("Bienvenido a EzWifi");
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setTitle("  Bienvenido a EzWifi");
         //
         setInformationText();
         getButtonsActions();

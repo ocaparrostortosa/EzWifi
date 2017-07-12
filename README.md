@@ -1,4 +1,4 @@
-# EzWifi 
+﻿# EzWifi 
 
 ![Bandera españa](http://www.stiftsgymnasium-melk.org/nawi/Physik/Team-Physik/files/stacks-image-3e7032f.png) Español 
 ==================
@@ -44,6 +44,10 @@ Creada por Óscar Caparrós de forma autodidacta para aprender Android y estable
  Agradecimientos a la comunidad de:
  
  ![Stackoverflow](https://upload.wikimedia.org/wikipedia/ro/f/f7/Stack_Overflow_logo.png)
+
+ La documentación del proyecto se encuentra en la carpeta javadoc/index.html
+
+ El apk esta disponible para su descarga en Google Drive: https://drive.google.com/file/d/0Bx3Hnu_kg28qVkQ2dE9iLVlSTEU/view?usp=sharing
  
  
 
@@ -94,3 +98,7 @@ The application was designed to satisfy a need of its own and some family and fr
 Acknowledgments to the community of:
  
  ![Stackoverflow](https://upload.wikimedia.org/wikipedia/ro/f/f7/Stack_Overflow_logo.png)
+
+ The project documentation is located in the folder javadoc/index.html
+
+ The apk is available for download on Google Drive: https://drive.google.com/file/d/0Bx3Hnu_kg28qVkQ2dE9iLVlSTEU/view?usp=sharing

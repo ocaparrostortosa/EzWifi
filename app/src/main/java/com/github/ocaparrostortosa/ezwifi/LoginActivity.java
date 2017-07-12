@@ -30,6 +30,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Oscar on 30/06/2017.
+ *
+ * LoginActivity() has the code to a correct login by the user checking the information in the database and informing to the user
+ * the login status. The commented code has the methods and the blocks that have the code to a Firebase login to a new version in the
+ * future.
+ *
+ * @author Oscar Caparros
+ * @version 1.0
  */
 
 public class LoginActivity extends AppCompatActivity{
@@ -60,13 +67,16 @@ public class LoginActivity extends AppCompatActivity{
 
         // ToolBarIcon code
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.my_icon);
-        getSupportActionBar().setTitle("Bienvenido a EzWifi");
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setTitle("  Bienvenido a EzWifi");
         //
         getAccionRegistro();
         clickOnLoginButton();
     }
 
+    /**
+     * getAccionRegistro() gets the register accion and calls to the methods to register a new user.
+     */
     private void getAccionRegistro(){
         TextView textoRegistro = (TextView) findViewById(R.id.lineaRegistrarse);
         textoRegistro.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +95,9 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * getAccionLogueo() gets the code to Login with the new registered user.
+     */
     private void getAccionBotonLogueo(){
         isNetworkAvailable();
 
@@ -117,6 +130,10 @@ public class LoginActivity extends AppCompatActivity{
         usuarioDAO.hacerLogin(nombreUsuario, claveUsuario, this);
     }
 
+    /**
+     * accionUsuarioCorrecto() has the code to ejecute with a correct username.
+     * @param username User name to login.
+     */
     public void accionUsuarioCorrecto(String username){
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         i.putExtra("EXTRA_USERNAME", username);
@@ -125,6 +142,10 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * accionUsuarioInorrecto() has the code to ejecute with a incorrect username.
+     * @param username User name to login.
+     */
     public void accionUsuarioIncorrecto(String username){
         Toast toast = Toast.makeText(getApplicationContext(), "El usuario o la contraseña son incorrectas.", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.BOTTOM | Gravity.CENTER , 0, 0);
@@ -134,6 +155,9 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * clickOnLoginButton() has the code to the login button action.
+     */
     private void clickOnLoginButton(){
         botonLogin = (Button) findViewById(R.id.botonLogin);
         botonLogin.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +168,9 @@ public class LoginActivity extends AppCompatActivity{
         });
     }
 
+    /**
+     * isNetworkAvailable() checks if the network connection is available.
+     */
     private void isNetworkAvailable(){
         //Saber si hay conexion a internet disponible
         NetworkStatus.isNetworkAvailable(getApplicationContext(), this);
